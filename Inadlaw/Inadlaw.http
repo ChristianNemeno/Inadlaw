@@ -1,0 +1,6 @@
+@Inadlaw_HostAddress = http://localhost:5012
+
+GET {{Inadlaw_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
