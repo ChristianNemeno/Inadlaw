@@ -37,13 +37,19 @@ export default function TaskList({ tasks, onToggle, onDelete }: TaskListProps ) 
     return (
         <ul>
             {tasks.map((t) => (
-                <li key ={t.id}>
+                <li key ={t.id}
+                    className="flex items-center justify-between bg-blue-100 dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition"
+                >
                     <span
                         onClick = {() => toggleComplete(t)}
                     >
                         {t.title}
                     </span>
-                    <button onClick = {() => deleteTask(t.id)}>X</button>
+                    <button onClick = {() => deleteTask(t.id)}
+                        className="text-red-500 hover:text-red-700 font-bold text-lg px-2 transition bg-amber-800 rounded-full"
+                    >
+                    X
+                    </button>
                 </li>
             )
 

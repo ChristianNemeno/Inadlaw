@@ -5,7 +5,7 @@ import TaskList from "./TaskList";
 import { type Todo } from "./types";
 import './App.css'
 
-function App() {
+export default function App() {
   const [tasks, setTasks] = useState<Todo[]>([])
 
   useEffect(() => {
@@ -26,12 +26,12 @@ function App() {
 
 
   return (
-    <div>
-      <h1>Todo App</h1>
-      <TaskForm addTask={addTask} />
-      <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} />
+    <div className="min-h-screen bg-gray-100 py-8">
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <h1 className="text-3xl font-bold text-blue-600 mb-6">Todo App</h1>
+        <TaskForm addTask={addTask} />
+        <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} />
+      </div>
     </div>
   );
 }
-
-export default App;
