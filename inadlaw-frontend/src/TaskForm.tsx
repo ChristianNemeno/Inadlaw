@@ -4,22 +4,22 @@ import { type Todo } from "./types";
 
 
 interface TaskFormProps {
-        onAdd: (task: Todo) => void;
+        addTask: (task: Todo) => void;
 } 
 
-export default function TaskForm({ onAdd }: TaskFormProps) {
+export default function TaskForm({ addTask }: TaskFormProps) {
     const [title, setTitle] = useState("");
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if(!title.trim()) return;
 
-        const res = await axios.post<Todo>("http://localhost:7259/api/todo", {
+        const res = await axios.post<Todo>("https://localhost:7259/api/todo", {
          title,
-         isCompleted: false,   
+         isComplete: false,   
         });
 
-        onAdd(res.data);
+        addTask(res.data);
         setTitle("");
     };
 
