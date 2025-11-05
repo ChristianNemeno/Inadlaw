@@ -14,7 +14,7 @@ export default function TaskForm({ onAdd }: TaskFormProps) {
         e.preventDefault();
         if(!title.trim()) return;
 
-        const res = await axios.post<Todo>("http://localhost:5000/api/todo", {
+        const res = await axios.post<Todo>("http://localhost:7259/api/todo", {
          title,
          isCompleted: false,   
         });
