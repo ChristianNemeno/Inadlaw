@@ -28,6 +28,23 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowReactApp");
 
+// Request/response logging middleware
+app.Use(async (context, next) =>
+{
+    var logger = app.Logger;
+    logger.LogInformation("Incoming {Method} {Path}{QueryString} from {RemoteIp}",
+        context.Request.Method,
+        context.Request.Path,
+        context.Request.QueryString,
+        context.Connection.RemoteIpAddress);
+
+    await next(); // invoke the next middleware / controller
+
+    logger.LogInformation("Handled {Method} {Path} => {StatusCode}",
+        context.Request.Method,
+        context.Request.Path,
+        context.Response.StatusCode);
+});
 
 app.UseHttpsRedirection();
 
