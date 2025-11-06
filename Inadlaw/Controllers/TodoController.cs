@@ -56,19 +56,20 @@ namespace Inadlaw.Controllers
             return NoContent();
         }
 
-        //[HttpDelete("{id}")]
-        //public ActionResult Delete(int id)
-        //{
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
 
-        //    _logger.LogInformation("Delete called for id={Id}", id);
+            _logger.LogInformation("Delete called for id={Id}", id);
 
-        //    var todo = todoItems.FirstOrDefault(t => t.Id == id);
-        //    if (todo == null) return NotFound();
+            var todo = await _db.Todos.FindAsync(id);
+            if (todo == null) return NotFound();
 
-        //    todoItems.Remove(todo);
+            _db.Todos.Remove(todo);
+            await _db.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
 
 
