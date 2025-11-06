@@ -22,6 +22,11 @@ export default function App() {
     
     const deleteTask = (id: number) =>
       setTasks((prev) => prev.filter((t) => (t.id !== id)));
+
+  const editTask = (id: number, newTitle:string) =>
+    setTasks((prev) =>
+        prev.map((t) => (t.id === id ? {...t, title: newTitle} : t))
+    );
         
 
 
@@ -30,7 +35,7 @@ export default function App() {
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
         <h1 className="text-3xl font-bold text-blue-600 mb-6">Todo App</h1>
         <TaskForm addTask={addTask} />
-        <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} />
+        <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask} onEdit={editTask} />
       </div>
     </div>
   );
