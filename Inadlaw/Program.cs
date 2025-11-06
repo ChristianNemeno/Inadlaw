@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Inadlaw.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +12,9 @@ builder.Services.AddCors(options =>
                             .AllowAnyMethod());  
     });
 
+builder.Services.AddDbContext<TodoContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 
 builder.Services.AddControllers();
@@ -19,6 +24,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Apply pending migrations at startup (development convenience)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TodoContext>();
+    db.Database.Migrate();
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

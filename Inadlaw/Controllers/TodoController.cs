@@ -1,5 +1,8 @@
-﻿using Inadlaw.Models;
+﻿using Inadlaw.Data;
+using Inadlaw.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Inadlaw.Controllers
 {
@@ -7,62 +10,62 @@ namespace Inadlaw.Controllers
     [Route("api/[controller]")]
     public class TodoController : Controller
     {
-        private static List<TodoItem> todoItems = new List<TodoItem>();
-
-        private static int nextId = 1;
-
+        private readonly TodoContext _db;
         private readonly ILogger<TodoController> _logger;
-        public TodoController(ILogger<TodoController> logger)
+
+        public TodoController(TodoContext db, ILogger<TodoController> logger)
         {
+            _db = db;
             _logger = logger;
         }
 
+
         [HttpGet]
-        public ActionResult<IEnumerable<TodoItem>> GetAll()
+        public async Task<ActionResult<IEnumerable<TodoItem>>> GetAll()
         {
             _logger.LogInformation("GetAll called");
-
-            return Ok(todoItems);
+            var items = await _db.Todos.ToListAsync();
+            return Ok(items);
         }
 
 
-        [HttpPost]
-        public ActionResult<TodoItem> Add(TodoItem todo)
-        {
-            _logger.LogInformation("Add called: {Title}", todo?.Title);
+        //[HttpPost]
+        //public ActionResult<TodoItem> Add(TodoItem todo)
+        //{
+        //    _logger.LogInformation("Add called: {Title}", todo?.Title);
 
-            todo.Id = nextId++;
-            todoItems.Add(todo);
-            return CreatedAtAction(nameof(GetAll), new {id = todo.Id}, todo);
-        }
+        //    todo.Id = nextId++;
+        //    todoItems.Add(todo);
+        //    return CreatedAtAction(nameof(GetAll), new {id = todo.Id}, todo);
+        //}
 
-        [HttpPut("{id}")]
-        public ActionResult Update(int id, TodoItem updated)
-        {
-            _logger.LogInformation("Update called for id={Id}", id);
+        //[HttpPut("{id}")]
+        //public ActionResult Update(int id, TodoItem updated)
+        //{
+        //    _logger.LogInformation("Update called for id={Id}", id);
 
-            var todo = todoItems.FirstOrDefault(t => t.Id == id);
-            if (todo == null) return NotFound();
+        //    var todo = todoItems.FirstOrDefault(t => t.Id == id);
+        //    if (todo == null) return NotFound();
 
-            todo.Title = updated.Title;
-            todo.IsCompleted = updated.IsCompleted;
+        //    todo.Title = updated.Title;
+        //    todo.IsCompleted = updated.IsCompleted;
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
-        {
+        //[HttpDelete("{id}")]
+        //public ActionResult Delete(int id)
+        //{
 
-            _logger.LogInformation("Delete called for id={Id}", id);
+        //    _logger.LogInformation("Delete called for id={Id}", id);
 
-            var todo = todoItems.FirstOrDefault(t => t.Id == id);
-            if(todo == null) return NotFound();
+        //    var todo = todoItems.FirstOrDefault(t => t.Id == id);
+        //    if(todo == null) return NotFound();
             
-            todoItems.Remove(todo);
+        //    todoItems.Remove(todo);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
 
 
