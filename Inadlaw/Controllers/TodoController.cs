@@ -29,15 +29,16 @@ namespace Inadlaw.Controllers
         }
 
 
-        //[HttpPost]
-        //public ActionResult<TodoItem> Add(TodoItem todo)
-        //{
-        //    _logger.LogInformation("Add called: {Title}", todo?.Title);
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> Add(TodoItem todo)
+        {
+            _logger.LogInformation("Add called: {Title}", todo?.Title);
 
-        //    todo.Id = nextId++;
-        //    todoItems.Add(todo);
-        //    return CreatedAtAction(nameof(GetAll), new {id = todo.Id}, todo);
-        //}
+            _db.Todos.Add(todo);
+            await _db.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAll), new { id = todo.Id }, todo);
+        }
 
         //[HttpPut("{id}")]
         //public ActionResult Update(int id, TodoItem updated)
@@ -60,8 +61,8 @@ namespace Inadlaw.Controllers
         //    _logger.LogInformation("Delete called for id={Id}", id);
 
         //    var todo = todoItems.FirstOrDefault(t => t.Id == id);
-        //    if(todo == null) return NotFound();
-            
+        //    if (todo == null) return NotFound();
+
         //    todoItems.Remove(todo);
 
         //    return NoContent();
