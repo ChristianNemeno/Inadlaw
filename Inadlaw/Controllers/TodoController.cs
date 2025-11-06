@@ -40,19 +40,21 @@ namespace Inadlaw.Controllers
             return CreatedAtAction(nameof(GetAll), new { id = todo.Id }, todo);
         }
 
-        //[HttpPut("{id}")]
-        //public ActionResult Update(int id, TodoItem updated)
-        //{
-        //    _logger.LogInformation("Update called for id={Id}", id);
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id, TodoItem updated)
+        {
+            _logger.LogInformation("Update called for id={Id}", id);
 
-        //    var todo = todoItems.FirstOrDefault(t => t.Id == id);
-        //    if (todo == null) return NotFound();
+            var todo = await _db.Todos.FindAsync(id);
+            if (todo == null) return NotFound();
 
-        //    todo.Title = updated.Title;
-        //    todo.IsCompleted = updated.IsCompleted;
+            todo.Title = updated.Title;
+            todo.IsCompleted = updated.IsCompleted;
 
-        //    return NoContent();
-        //}
+            await _db.SaveChangesAsync();
+
+            return NoContent();
+        }
 
         //[HttpDelete("{id}")]
         //public ActionResult Delete(int id)
