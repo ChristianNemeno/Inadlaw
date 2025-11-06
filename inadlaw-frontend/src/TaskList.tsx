@@ -38,15 +38,17 @@ export default function TaskList({ tasks, onToggle, onDelete }: TaskListProps ) 
         <ul>
             {tasks.map((t) => (
                 <li key ={t.id}
-                    className="flex items-center justify-between bg-blue-100 dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition"
+                    className="flex items-center justify-between bg-blue-100  px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition"
+                    onClick = {() => toggleComplete(t)}
+                    
                 >
                     <span
-                        onClick = {() => toggleComplete(t)}
+                        className ={t.isComplete ? "line-through" : ""} 
                     >
                         {t.title}
                     </span>
-                    <button onClick = {() => deleteTask(t.id)}
-                        className="text-red-500 hover:text-red-700 font-bold text-lg px-2 transition bg-amber-800 rounded-full"
+                    <button onClick = {(e) => { e.stopPropagation(); deleteTask(t.id)}}
+                        className="text-red-500 hover:text-red-700 font-bold text-lg px-2 transition  rounded-full"
                     >
                     X
                     </button>
